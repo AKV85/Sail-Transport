@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\CarModelController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TransportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', HomeController::class)->name('home');
+
+Route::resource('/manufacturers', ManufacturerController::class);
+// Route::resource('/car_models', CarModelController::class);
+// Route::resource('/transports', TransportController::class);
+
