@@ -11,7 +11,7 @@ class StoreTransportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreTransportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'manufacturer_name' => 'required|string',
+            'car_model' => 'required|string',
+            'car_model_id' => 'exists:car_models,id',
+            'car_number' => 'required',
+            'fuel_tank_capacity' => 'required',
+            'average_fuel_consumption' => 'required',
+            'projected_distance' => 'required',
         ];
     }
 }

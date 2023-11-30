@@ -20,6 +20,7 @@ use App\Http\Controllers\TransportController;
 Route::get('/', HomeController::class)->name('home');
 
 Route::resource('/manufacturers', ManufacturerController::class);
-// Route::resource('/car_models', CarModelController::class);
-// Route::resource('/transports', TransportController::class);
+Route::resource('/carModels', CarModelController::class);
+Route::resource('/transports', TransportController::class);
+
 

@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('model_id');
+            $table->unsignedBigInteger('car_model_id');
             $table->string('car_number')->unique();
-            $table->float('fuel_tank_capacity(l)');
-            $table->float('average_fuel_consumption(l/100km)');
-            $table->float('projected_distance(km)');
+            $table->float('fuel_tank_capacity');
+            $table->float('average_fuel_consumption');
+            $table->float('projected_distance');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('model_id')->references('id')->on('car_models');
+            $table->foreign('car_model_id')->references('id')->on('car_models');
         });
     }
 

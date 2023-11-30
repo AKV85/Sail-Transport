@@ -4,63 +4,86 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransportRequest;
 use App\Http\Requests\UpdateTransportRequest;
+use Illuminate\Http\Request;
 use App\Models\Transport;
+use App\Models\Manufacturer;
+use App\Models\CarModel;
+use Inertia\Inertia;
 
 class TransportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $transports = Transport::with('carModel.manufacturer')->get();
+
+        return Inertia::render('transports/Index', ['transports' => $transports]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function show($id)
+    {
+        $transport = Transport::with('carModel.manufacturer')->findOrFail($id);
+
+        return Inertia::render('transports/Show', ['transport' => $transport]);
+    }
+
     public function create()
     {
-        //
+        $manufacturers = Manufacturer::all();
+        $carModels = CarModel::all();
+
+        return Inertia::render('transports/Create', [
+            'manufacturers' => $manufacturers,
+            'carModels' => $carModels,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTransportRequest $request)
     {
-        //
+        $manufacturerName = $request->input('manufacturer_name');
+        $carModelName = $request->input('car_model');
+
+        $manufacturer = Manufacturer::firstOrCreate(['name' => $manufacturerName]);
+
+        $carModel = CarModel::firstOrCreate(['name' => $carModelName, 'manufacturer_id' => $manufacturer->id]);
+
+        $transport = Transport::create(array_merge(
+            $request->validated(),
+            ['car_model_id' => $carModel->id]
+        ));
+
+        return to_route('transports.index')->with('success', 'Transport created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Transport $transport)
+    public function edit($id)
     {
-        //
+        $transport = Transport::with('carModel.manufacturer')->findOrFail($id);
+
+        return Inertia::render('transports/Edit', ['transport' => $transport]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Transport $transport)
+    public function update(UpdateTransportRequest $request, $id)
     {
-        //
+        $transport = Transport::with('carModel.manufacturer')->findOrFail($id);
+        $transport->update($request->all());
+
+        $manufacturerName = $request->input('manufacturer_name');
+        if ($manufacturerName) {
+            $transport->carModel->manufacturer->update(['name' => $manufacturerName]);
+        }
+
+        $carModel = $request->input('car_model');
+        if ($carModel) {
+            $transport->carModel->update(['name' => $carModel]);
+        }
+
+        return to_route('transports.index')->with('success', 'Transport updated successfully!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTransportRequest $request, Transport $transport)
+    public function destroy($id)
     {
-        //
-    }
+        $transport = Transport::findOrFail($id);
+        $transport->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Transport $transport)
-    {
-        //
+        return redirect()->route('transports.index')->with('success', 'Transport deleted successfully!');
     }
 }

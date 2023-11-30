@@ -12,12 +12,14 @@ class ManufacturerController extends Controller
     public function index()
     {
         $manufacturers = Manufacturer::all();
-        return Inertia::render('manufacturers/Index', ['manufacturers'=>$manufacturers]);
+
+        return Inertia::render('manufacturers/Index', ['manufacturers' => $manufacturers]);
     }
 
     public function show($id)
     {
         $manufacturer = Manufacturer::findOrFail($id);
+
         return Inertia::render('manufacturers/Show', ['manufacturer' => $manufacturer]);
     }
 
@@ -52,6 +54,7 @@ class ManufacturerController extends Controller
     {
         $manufacturer = Manufacturer::findOrFail($id);
         $manufacturer->delete();
+
         return redirect()->route('manufacturers.index')->with('success', 'Manufacturer deleted successfully!');
     }
 }

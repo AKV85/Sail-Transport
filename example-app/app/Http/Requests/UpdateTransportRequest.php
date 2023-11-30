@@ -11,7 +11,7 @@ class UpdateTransportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateTransportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'car_model_id' => 'required|numeric|between:1,9',
+            'car_number' => 'required|max:20',
+            'fuel_tank_capacity' => 'required',
+            'average_fuel_consumption' => 'required',
+            'projected_distance' => 'required',
         ];
     }
 }

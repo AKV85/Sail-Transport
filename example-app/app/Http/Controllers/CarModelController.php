@@ -5,62 +5,56 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCarModelRequest;
 use App\Http\Requests\UpdateCarModelRequest;
 use App\Models\CarModel;
+use Inertia\Inertia;
 
 class CarModelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $carModels = CarModel::with('manufacturer')->get();
+
+        return Inertia::render('carModels/Index', ['carModels' => $carModels]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function show($id)
+    {
+        $carModel = CarModel::with('manufacturer')->findOrFail($id);
+
+        return Inertia::render('carModels/Show', ['carModel' => $carModel]);
+    }
+
     public function create()
     {
-        //
+        return Inertia::render('carModels/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCarModelRequest $request)
     {
-        //
+        $carModel = CarModel::create($request->validated());
+
+        return to_route('carModels.index')->with('success', 'CarModel created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CarModel $carModel)
+    public function edit($id)
     {
-        //
+        $carModel = CarModel::findOrFail($id);
+
+        return Inertia::render('carModels/Edit', ['carModel' => $carModel]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CarModel $carModel)
+    public function update(UpdateCarModelRequest $request, $id)
     {
-        //
+        $carModel = CarModel::findOrFail($id);
+        $carModel->update($request->all());
+
+        return to_route('carModels.index')->with('success', 'CarModel updated successfully!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCarModelRequest $request, CarModel $carModel)
+    public function destroy($id)
     {
-        //
-    }
+        $carModel = CarModel::findOrFail($id);
+        $carModel->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CarModel $carModel)
-    {
-        //
+        return redirect()->route('carModels.index')->with('success', 'CarModel deleted successfully!');
     }
 }
