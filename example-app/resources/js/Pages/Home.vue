@@ -1,7 +1,6 @@
 <script setup>
 import DataTable from "@/components/DataTable.vue";
 import { onMounted, ref } from "vue";
-import '@/css/home.css';
 import Header from "@/components/Header.vue";
 
 const transports = ref([]);
