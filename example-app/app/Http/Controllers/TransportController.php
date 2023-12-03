@@ -8,20 +8,21 @@ use Illuminate\Http\Request;
 use App\Models\Transport;
 use App\Models\Manufacturer;
 use App\Models\CarModel;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class TransportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transports = Transport::with('carModel.manufacturer')->get();
+        $transports = Transport::withTrashed()->with('carModel.manufacturer')->get();
 
-        return Inertia::render('transports/Index', ['transports' => $transports]);
+        return Inertia::render('transports/Index' , ['transports' => $transports]);
     }
 
     public function show($id)
     {
-        $transport = Transport::with('carModel.manufacturer')->findOrFail($id);
+        $transport = Transport::withTrashed()->with('carModel.manufacturer')->findOrFail($id);
 
         return Inertia::render('transports/Show', ['transport' => $transport]);
     }

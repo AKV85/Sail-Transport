@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('car_number')->unique();
             $table->float('fuel_tank_capacity');
             $table->float('average_fuel_consumption');
-            $table->float('projected_distance');
             $table->timestamps();
             $table->softDeletes();
 

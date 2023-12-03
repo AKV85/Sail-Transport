@@ -22,8 +22,8 @@ class StoreCarModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'manufacturer_id'=>'required|numeric|between:1,3',
-            'name'=> 'required|max:10',
+            'manufacturer_id' => 'required|numeric|between:1,3',
+            'name' => 'required|max:10',
         ];
     }
 }

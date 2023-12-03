@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transport;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -12,6 +13,8 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Home');
+        $transports = Transport::with('carModel.manufacturer')->get();
+
+        return Inertia::render('Home', ['transports' => $transports]);
     }
 }

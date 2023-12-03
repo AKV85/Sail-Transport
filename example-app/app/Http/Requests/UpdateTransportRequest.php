@@ -26,7 +26,6 @@ class UpdateTransportRequest extends FormRequest
             'car_number' => 'required|max:20',
             'fuel_tank_capacity' => 'required',
             'average_fuel_consumption' => 'required',
-            'projected_distance' => 'required',
         ];
     }
 }

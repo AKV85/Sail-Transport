@@ -28,7 +28,6 @@ class StoreTransportRequest extends FormRequest
             'car_number' => 'required',
             'fuel_tank_capacity' => 'required',
             'average_fuel_consumption' => 'required',
-            'projected_distance' => 'required',
         ];
     }
 }
