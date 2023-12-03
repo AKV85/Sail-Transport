@@ -1,23 +1,33 @@
 # Istructions:
 ## Sail On Linux
 <p><b>Step 1. Instalation</b></p>
-Use commands in terminal:
+Open empty folder for new project->
 
-docker context use default
+Use command in terminal: 
 
-Next:
+git clone git@github.com:AKV85/Sail-Transport.git
 
-curl -s https://laravel.build/example-app | bash
+After you need go to into the dir app-example, use commands in terminal:  
+
+cd Sail-Transport/app-example
+
+after in terminal:
+
+docker-compose up -d
+
+Next go to your container(example-app-laravel.test-1) in Docker Desktop, ant type inside container:
+
+composer require laravel/sail --dev
 
 After:
 
-cd example-app
+php artisan sail:install
 
- And:
+Now you use sail in your terminal:
 
-./vendor/bin/sail up
+./vendor/bin/sail up -d
 
-Now you can open you can access the application in your web browser at: http://localhost.
+Now you can  access the application in your web browser at: http://localhost.
 
 For more information or if you want to use Sail on Windows or Mac use:
 - [documentation](https://laravel.com/docs/10.x/installation#laravel-and-docker).
@@ -25,7 +35,7 @@ For more information or if you want to use Sail on Windows or Mac use:
 ## Configuring A Shell Alias
 Use command in terminal:
 
-alias sail='[ -f sail ] && sh sail || sh ./vendor/bin/sail'
+alias sail='[ -f sail ] && sh sail || sh ./vendor/bin/sail'    (or vendor/bin/sail)
 
 More information in [documentation](https://laravel.com/docs/10.x/sail)
 ## Starting & Stopping Sail
@@ -59,6 +69,14 @@ Use command in terminal:
 sail artisan migrate
 
 sail artisan db:seed
+
+P.S. If you will have here some errors ,than try:
+
+ sail artisan migrate:fresh
+
+ and again:
+
+ sail artisan db:seed
 
 ## Run serve 
 
